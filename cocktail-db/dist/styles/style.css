@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Distressed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+    --title-font: "Fredericka the Great", serif;
+    --subtitle-font: "Rubik Distressed", system-ui;
+    --content-font: "Playfair Display", serif;
+
+    --nightfall: #324856;
+    --cool-sage: #4A746A;
+    --raw-sienna: #D18237;
+    --sunset: #D66C44;
+    --gloomy-navy: #030923;
+    --cinder: #030305;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #ffe6da;
+    min-height: 100vh;
+    padding: 20px;
+}
+.heading-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    margin: 2rem;
+}
+figure {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    gap: 20px;
+}
+.home-icon {
+    color: var(--sunset);
+}
+.logo {
+    width: 100px;
+}
+.page-title {
+    font-family: var(--title-font);
+    font-size: 40px;
+    color: var(--sunset);
+}
+.search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 3rem;
+}
+.search-form {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--content-font);
+}
+.form-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+.search-input {
+    width: 60%;
+    padding: 8px;
+    font-family: var(--content-font);
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    
+}
+.search-btn {
+    padding: 8px 20px;
+    font-family: var(--content-font);
+    letter-spacing: 2px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--sunset);
+    color: var(--gloomy-navy);
+}
+
+/* Utility class för att dölja element */
+.d-none {
+    display: none !important;
+}
+
+/* Cocktail card styling */
+.cocktail-card {
+    border: 2px solid var(--sunset);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cocktail-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.cocktail-card img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+}
+

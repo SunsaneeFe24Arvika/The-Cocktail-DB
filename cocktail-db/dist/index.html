@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css" />
+    <script type="module" src="./index.js"></script>
+    <title>Cocktails-DB</title>
+</head>
+<body>
+    <header class="page-heading">
+        <div class="heading-container">
+        <figure class="page-logo">
+            <img src="../dist/res/logo-bg.png" alt="cocktail" class="logo">
+            <h1 class="page-title">The Cocktail DB</h1>            
+        </figure>
+        <a href="./index.html">
+                <img src="./res/icon-home.png" class="home-icon"></i>
+            </a>   
+        </div>
+        <section class="search-container" id="searchSection">
+            <form class="search-form">
+                <label for="searchInput" class="search-label">Find your favorite drink!</label>
+                <div class="form-input">
+                    <input type="text" class="search-input" id="searchInput" placeholder="What are you looking for? (e.g. Margarita...)" />
+                    <button type="button" class="search-btn" id="searchBtn">Search</button>                
+            </form>          
+        </section>
+    </header>
+    <!-- Visa sök rusultatet -->
+    <section class="search-results section" id="resultsSection">
+            <h1 class="page-title">Cocktail searchResults page</h1>
+        <div class="content-wrapper" id="searchResults">              
+                
+        </div>
+    </section>
+            
+    <!-- Visa detaljer av drinken -->
+        <section class="detail-section section" id="detailSection">
+            <div class="content-wrapper">
+                <h1 class="page-title">Cocktail Detail page</h1>
+                <!-- Detaljer fylls i dynamiskt här -->
+            </div>
+        </section>
+    
+    <!-- Visa lumpmässiga av olika drink -->
+        <section class="list-section section" id="randomSection">
+            <div class="content-wrapper">
+                <h1 class="page-title">Cocktail Random page</h1>
+                <div id="randomContainer">
+                    
+                </div>               
+            </div>
+        </section>
+        
+        
+    </div>
+    
+</body>
+</html>
