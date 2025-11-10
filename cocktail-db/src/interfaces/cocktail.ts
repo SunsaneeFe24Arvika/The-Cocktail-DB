@@ -2,7 +2,7 @@
 
 export interface Cocktail {
     idDrink: string;
-    strDring: string; // Namn på drinken
+    strDrink: string; // Namn på drinken
     strCategory: string; // Cocktail eller Shot
     strAlcoholic: string; // Alcohol eller non-alcohol
     strInstructions: string; // Instruktioner på engelska
