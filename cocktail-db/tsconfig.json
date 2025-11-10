@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "noImplicitAny": true,
     "noUnusedParameters": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
+    "removeComments": true,
     "sourceMap": true
     },
     "include": ["src/**/*"],
