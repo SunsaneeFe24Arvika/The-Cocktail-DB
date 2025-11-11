@@ -1,5 +1,5 @@
-import { Cocktail, CocktailResponse } from "../interfaces/cocktail";
-import { errorHandleMessage } from "../utils/errorHandler";
+import { Cocktail, CocktailResponse } from "../interfaces/cocktail.js";
+import { errorHandleMessage } from "../utils/errorHandler.js";
 
 // Fetch all cocktails by first letter
 export const fetchCocktailByLetter = async (letter: string): Promise<Cocktail[]> => {

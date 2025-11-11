@@ -7,6 +7,7 @@
     --subtitle-font: "Rubik Distressed", system-ui;
     --content-font: "Playfair Display", serif;
 
+    --background-color: #ffe6da;
     --nightfall: #324856;
     --cool-sage: #4A746A;
     --raw-sienna: #D18237;
@@ -20,9 +21,13 @@
     padding: 0;
 }
 body {
+    width: 100vw;
+    min-height: 100vh;
     background-color: #ffe6da;
     min-height: 100vh;
     padding: 20px;
+    overflow: scroll;
+    margin: auto;
 }
 .heading-container {
     display: flex;
@@ -39,20 +44,40 @@ figure {
 }
 .home-icon {
     color: var(--sunset);
+    cursor: pointer;
+}
+.home-icon:hover {
+    color: var(--nightfall);
 }
 .logo {
     width: 100px;
 }
 .page-title {
     font-family: var(--title-font);
-    font-size: 40px;
+    font-size: 50px;
     color: var(--sunset);
 }
+.nav-bar {
+    display: flex;
+    align-items: baseline;
+    gap: 3rem;
+}
+.results__title, .random__title, .detail__title {
+    text-align: center;
+    margin: 3rem 0;
+}
+.content-wrapper {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
 .search-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 3rem;
+    margin: 0 10rem;
 }
 .search-form {
     display: flex;
@@ -93,6 +118,9 @@ figure {
 
 /* Cocktail card styling */
 .cocktail-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     border: 2px solid var(--sunset);
     border-radius: 10px;
     padding: 1rem;
@@ -112,4 +140,58 @@ figure {
     max-width: 300px;
     border-radius: 8px;
 }
+.detail-section {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    margin: auto;
+
+        .cocktail__image {
+        width: 400px;
+        height: auto;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 10px 10px 5px var(--nightfall);
+        height: auto;
+        margin-bottom: 3rem;
+
+
+    }
+}
+.card__heading {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    overflow-wrap: break-word;
+    gap: 5rem;
+    
+}
+.heart__icon {
+    width: 40px;
+    height: 40px;
+    border: none;    
+}
+.favorite-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: var(--background-color);
+    cursor: pointer;
+}
+.favSection-btn {
+    font-family: var(--content-font);
+    font-size: 24px;
+    color: var(--sunset);
+    border: none;
+    text-shadow: var(--raw-sienna) 2px 2px 5px;
+    background-color: var(--background-color);
+    cursor: pointer;
+}
+.favSection-btn:hover {
+    text-decoration: underline;
+    color: var(--nightfall);
+}
+    
 

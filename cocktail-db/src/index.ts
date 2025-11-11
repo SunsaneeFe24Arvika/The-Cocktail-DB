@@ -1,7 +1,8 @@
-import { Cocktail } from "./interfaces/cocktail";
-import { toggleSectionDisplay } from "./utils/toggleDisplay";
-import { fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi";
-import { errorHandleMessage } from "./utils/errorHandler";
+import { Cocktail } from "./interfaces/cocktail.js";
+import { toggleSectionDisplay } from "./utils/toggleDisplay.js";
+import { fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi.js";
+import { errorHandleMessage } from "./utils/errorHandler.js";
+import { toggleFavorite, updateFavoriteButton, getFavorites } from "./utils/toggleFav.js";
 
 // Setup sections -dölj alla sektioner först
 const sectionSetup = (): void => {
@@ -15,9 +16,11 @@ const createCard = (cocktail: Cocktail): HTMLElement => {
     cardRef.classList.add('cocktail-card');
 
     const cardTemplate = `
-        <h2>${cocktail.strDrink}</h2>
+        <h1 class="page-title">${cocktail.strDrink}</h1>
         <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-        <p><strong>Category</strong> ${cocktail.strCategory}</p>
+        <span><strong>Category</strong> ${cocktail.strCategory}</span>
+        <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
+        <p>${cocktail.strInstructions}</p>
     `;
     cardRef.innerHTML = cardTemplate;
 
@@ -68,8 +71,8 @@ const renderSearchResults = (cocktails: Cocktail[]): void => {
         card.innerHTML = `
             <h2>${cocktail.strDrink}</h2>
             <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <p><strong>Category:</strong> ${cocktail.strCategory}</p>
-            <p><strong>Type:</strong> ${cocktail.strAlcoholic}</p>
+            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
             <p>${cocktail.strInstructions}</p>
         `;
 
@@ -89,12 +92,35 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
     const detailContainer = document.querySelector('#detailSection') as HTMLElement;
     if (detailContainer) {
         detailContainer.innerHTML = `
-            <h2>${cocktail.strDrink}</h2>
-            <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <p><strong>Category:</strong> ${cocktail.strCategory}</p>
-            <p><strong>Type:</strong> ${cocktail.strAlcoholic}</p>
+            <div class="card__heading">
+            <h1 class="page-title detail__title">${cocktail.strDrink}</h1>
+            <button class="favorite-btn">
+            <img class="heart__icon" src="./res/heart-icon.svg" alt="Favorite">
+            </button>
+            </div>
+            <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
             <p>${cocktail.strInstructions}</p>
         `;
+
+        // Setup favorite button
+        const favoriteBtn = detailContainer.querySelector('.favorite-btn') as HTMLButtonElement;
+        if (favoriteBtn) {
+            // Uppdatera knappen baserat på om drinken redan är favorit
+            updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+
+            // Lägg till click event
+            favoriteBtn.addEventListener('click', () => {
+                const isFav = toggleFavorite(cocktail);
+                updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+                
+                // Visa feedback till användaren
+                const message = isFav ? `${cocktail.strDrink} tillagd som favorit!` : `${cocktail.strDrink} borttagen från favoriter`;
+                console.log(message);
+                // Du kan lägga till en toast/notification här om du vill
+            });
+        }
     }
 }
 
@@ -142,13 +168,57 @@ const setupSearchButton = (): void => {
         if (event.key === 'Enter') {
             searchBtn.click();
         }
+
+
     });
 }
+
+// Funktion för att visa favorit drinken
+const showMyFavoriteDrinks = (): void => {
+    console.log('showMyFavoriteDrinks körs...');
+    toggleSectionDisplay('favorite');
+
+    const favSectionRef = document.querySelector('#favoriteSection') as HTMLElement;
+
+    if (!favSectionRef) {
+        console.error('#favoriteSection hittades inte!');
+        return;    
+    }
+
+    // Hämta alla favoriter från localStorage
+    const favorites = getFavorites();
+    console.log('Antal favoriter:', favorites.length);
+    console.log('Favoriter:', favorites);
+
+    // Rensa tidigare innehåll
+    favSectionRef.innerHTML = '';
+
+    // Kolla om det finns favoriter
+    if (favorites.length === 0) {
+        favSectionRef.innerHTML = '<h3 class="page-title">Inga favoriter än. Lägg till några cocktails!</h3>';
+        return;
+    }
+
+    // Skapa kort för varje favoritdrink
+    favorites.forEach(cocktail => {
+        const cardRef: HTMLElement = createCard(cocktail);
+        favSectionRef.appendChild(cardRef);
+    });
+}
+
 
 // Initiera appen när DOM är laddad
 document.addEventListener('DOMContentLoaded', () => {
     // Setup section
     sectionSetup();
+
+    const favoritesBtn = document.querySelector('#favoriteBtn');
+    if (favoritesBtn) {
+        favoritesBtn.addEventListener('click', () => {
+            showMyFavoriteDrinks();
+            toggleSectionDisplay('favorite');
+        });
+    }
 
     // Visa random-sektionen som standard
     toggleSectionDisplay('random');
