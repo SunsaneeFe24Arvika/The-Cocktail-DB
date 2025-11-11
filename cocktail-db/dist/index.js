@@ -1,6 +1,7 @@
-import { toggleSectionDisplay } from "./utils/toggleDisplay";
-import { fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi";
-import { errorHandleMessage } from "./utils/errorHandler";
+import { toggleSectionDisplay } from "./utils/toggleDisplay.js";
+import { fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi.js";
+import { errorHandleMessage } from "./utils/errorHandler.js";
+import { toggleFavorite, updateFavoriteButton, getFavorites } from "./utils/toggleFav.js";
 const sectionSetup = () => {
     const sectionRefs = document.querySelectorAll('.section');
     sectionRefs.forEach(section => section.classList.add('d-none'));
@@ -9,9 +10,11 @@ const createCard = (cocktail) => {
     const cardRef = document.createElement('article');
     cardRef.classList.add('cocktail-card');
     const cardTemplate = `
-        <h2>${cocktail.strDrink}</h2>
+        <h1 class="page-title">${cocktail.strDrink}</h1>
         <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-        <p><strong>Category</strong> ${cocktail.strCategory}</p>
+        <span><strong>Category</strong> ${cocktail.strCategory}</span>
+        <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
+        <p>${cocktail.strInstructions}</p>
     `;
     cardRef.innerHTML = cardTemplate;
     cardRef.addEventListener('click', () => {
@@ -46,8 +49,8 @@ const renderSearchResults = (cocktails) => {
         card.innerHTML = `
             <h2>${cocktail.strDrink}</h2>
             <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <p><strong>Category:</strong> ${cocktail.strCategory}</p>
-            <p><strong>Type:</strong> ${cocktail.strAlcoholic}</p>
+            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
             <p>${cocktail.strInstructions}</p>
         `;
         card.addEventListener('click', () => {
@@ -61,12 +64,27 @@ const showCocktailDetail = (cocktail) => {
     const detailContainer = document.querySelector('#detailSection');
     if (detailContainer) {
         detailContainer.innerHTML = `
-            <h2>${cocktail.strDrink}</h2>
-            <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <p><strong>Category:</strong> ${cocktail.strCategory}</p>
-            <p><strong>Type:</strong> ${cocktail.strAlcoholic}</p>
+            <div class="card__heading">
+            <h1 class="page-title detail__title">${cocktail.strDrink}</h1>
+            <button class="favorite-btn">
+            <img class="heart__icon" src="./res/heart-icon.svg" alt="Favorite">
+            </button>
+            </div>
+            <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
             <p>${cocktail.strInstructions}</p>
         `;
+        const favoriteBtn = detailContainer.querySelector('.favorite-btn');
+        if (favoriteBtn) {
+            updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+            favoriteBtn.addEventListener('click', () => {
+                const isFav = toggleFavorite(cocktail);
+                updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+                const message = isFav ? `${cocktail.strDrink} tillagd som favorit!` : `${cocktail.strDrink} borttagen från favoriter`;
+                console.log(message);
+            });
+        }
     }
 };
 const setupSearchButton = () => {
@@ -103,8 +121,36 @@ const setupSearchButton = () => {
         }
     });
 };
+const showMyFavoriteDrinks = () => {
+    console.log('showMyFavoriteDrinks körs...');
+    toggleSectionDisplay('favorite');
+    const favSectionRef = document.querySelector('#favoriteSection');
+    if (!favSectionRef) {
+        console.error('#favoriteSection hittades inte!');
+        return;
+    }
+    const favorites = getFavorites();
+    console.log('Antal favoriter:', favorites.length);
+    console.log('Favoriter:', favorites);
+    favSectionRef.innerHTML = '';
+    if (favorites.length === 0) {
+        favSectionRef.innerHTML = '<h3 class="page-title">Inga favoriter än. Lägg till några cocktails!</h3>';
+        return;
+    }
+    favorites.forEach(cocktail => {
+        const cardRef = createCard(cocktail);
+        favSectionRef.appendChild(cardRef);
+    });
+};
 document.addEventListener('DOMContentLoaded', () => {
     sectionSetup();
+    const favoritesBtn = document.querySelector('#favoriteBtn');
+    if (favoritesBtn) {
+        favoritesBtn.addEventListener('click', () => {
+            showMyFavoriteDrinks();
+            toggleSectionDisplay('favorite');
+        });
+    }
     toggleSectionDisplay('random');
     setupSearchButton();
     startRandomCocktailTimer(renderCocktailList);

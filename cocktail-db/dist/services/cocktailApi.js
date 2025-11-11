@@ -1,4 +1,4 @@
-import { errorHandleMessage } from "../utils/errorHandler";
+import { errorHandleMessage } from "../utils/errorHandler.js";
 export const fetchCocktailByLetter = async (letter) => {
     try {
         const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`);
