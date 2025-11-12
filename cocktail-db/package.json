@@ -1,0 +1,14 @@
+{
+  "name": "cocktail-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "sunsanee persson",
+  "license": "ISC",
+  "type": "module"
+}
