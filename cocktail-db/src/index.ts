@@ -126,7 +126,7 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
         // Hämta ingredienser och mått
         const ingredients = getIngredients(cocktail);
         
-        // Skapa List-element för ingredienslistan
+        // Skapa HTMLlist för ingredienslistan
         const ingredientsList = ingredients.map(item => `
             <li class="ingredients__list">
                 <span class="ingredient__name">${item.ingredient}</span>

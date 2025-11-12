@@ -81,7 +81,7 @@ export const randomSetup = async (): Promise<Cocktail[]> => {
     // Vänta på alla promises och platta ut Arrayen
     const cocktailArrays = await Promise.all(cocktailsPromises);
     const cocktailList = cocktailArrays.flat();
-
+    
     return cocktailList;
 }
 
