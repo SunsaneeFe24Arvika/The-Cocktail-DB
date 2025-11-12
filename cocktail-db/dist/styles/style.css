@@ -60,6 +60,7 @@ figure {
     font-size: 50px;
     color: var(--sunset);
     text-shadow: var(--raw-sienna) 2px 2px 5px;
+    margin-top: 3rem;
     
 }
 
@@ -70,10 +71,9 @@ figure {
 }
 .results__title, .random__title, .detail__title, .favorite__title {
     text-align: left;
-    margin: 3rem;
     
 }
-.content-wrapper {
+.content-wrapper, .favoriteSection, .search-results {
     width: 60%;
     margin: auto;
     display: flex;
@@ -208,7 +208,7 @@ figure {
     display: flex;
     flex-direction: column;
     width: 400px;
-    margin: auto;
+    margin-bottom: 3rem;
 }
 
 ul {
