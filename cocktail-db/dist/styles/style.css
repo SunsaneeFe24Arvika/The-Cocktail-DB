@@ -60,6 +60,7 @@ figure {
     font-size: 50px;
     color: var(--sunset);
     text-shadow: var(--raw-sienna) 2px 2px 5px;
+    
 }
 
 .nav-bar {
@@ -67,13 +68,13 @@ figure {
     align-items: baseline;
     gap: 3rem;
 }
-.results__title, .random__title, .detail__title {
+.results__title, .random__title, .detail__title, .favorite__title {
     text-align: left;
-    margin: 3rem 0;
+    margin: 3rem;
     
 }
 .content-wrapper {
-    width: 80%;
+    width: 60%;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -152,13 +153,6 @@ figure {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.cocktail-card img {
-    width: 100%;
-    max-width: 300px;
-    border: none;
-    border-radius: 8px;
-    margin: 2rem;
-}
 .detail-section {
     width: 80%;
     display: flex;
@@ -166,8 +160,9 @@ figure {
     align-items: center;
     text-align: left;
     margin: auto;
-
-        .cocktail__image {
+   
+}
+.cocktail__image {
         width: 400px;
         height: auto;
         border: none;
@@ -175,9 +170,6 @@ figure {
         box-shadow: 10px 10px 5px var(--nightfall);
         height: auto;
         margin-bottom: 3rem;
-
-
-    }
 }
 .card__heading {
     display: grid;
@@ -215,9 +207,10 @@ figure {
 .card__details {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 400px;
     margin: auto;
 }
+
 ul {
     margin-left: 3rem;
     font-family: var(--content-font);
@@ -228,6 +221,7 @@ h2 {
     font-family: var(--title-font);
     font-size: 40px;
     color: var(--sunset);
+    margin: 2rem 0;
 }
 h3 {
     font-family: var(--subtitle-font);

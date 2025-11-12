@@ -37,11 +37,16 @@ const createCard = (cocktail: Cocktail): HTMLElement => {
     cardRef.classList.add('cocktail-card');
 
     const cardTemplate = `
-        <h2 class="cocktail-title">${cocktail.strDrink}</h2>
-        <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-        <span><strong>Category:</strong> ${cocktail.strCategory}</span>
-        <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
-        
+            <div class="card__heading">
+            <h2 class="detail__title">${cocktail.strDrink}</h2>
+            <button class="favorite-btn">
+            <img class="heart__icon" src="./res/heart-icon.svg" alt="Favorite">
+            </button>
+            </div>
+            <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+            <aside class="card__details">
+            <span><strong>Category:</strong> ${cocktail.strCategory}</span>
+            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>      
     `;
     cardRef.innerHTML = cardTemplate;
 
@@ -90,11 +95,17 @@ const renderSearchResults = (cocktails: Cocktail[]): void => {
         const card = document.createElement('article');
         card.classList.add('cocktail-card');
         card.innerHTML = `
-            <h2>${cocktail.strDrink}</h2>
-            <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+            <div class="card__heading">
+            <h2 class="detail__title">${cocktail.strDrink}</h2>
+            <button class="favorite-btn">
+            <img class="heart__icon" src="./res/heart-icon.svg" alt="Favorite">
+            </button>
+            </div>
+            <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+            <aside class="card__details">
             <span><strong>Category:</strong> ${cocktail.strCategory}</span>
-            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
-            
+            <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span> 
+            </aside>        
         `;
 
         // Lägg till klick-event för att visa detaljer
@@ -125,7 +136,7 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
 
         detailContainer.innerHTML = `
             <div class="card__heading">
-            <h1 class="page-title detail__title">${cocktail.strDrink}</h1>
+            <h2 class="detail__title">${cocktail.strDrink}</h2>
             <button class="favorite-btn">
             <img class="heart__icon" src="./res/heart-icon.svg" alt="Favorite">
             </button>
@@ -240,12 +251,12 @@ const showMyFavoriteDrinks = (): void => {
     console.log('Antal favoriter:', favorites.length);
     console.log('Favoriter:', favorites);
 
-    // Rensa tidigare innehåll
-    favSectionRef.innerHTML = '';
+    
+    favSectionRef.innerHTML = '<h1 class="page-title favorite__title">Your favorite drinks...</h1>';
 
     // Kolla om det finns favoriter
     if (favorites.length === 0) {
-        favSectionRef.innerHTML = '<h3 class="page-title">Inga favoriter än. Lägg till några cocktails!</h3>';
+        favSectionRef.innerHTML += '<h3>Inga favoriter än. Lägg till några cocktails!</h3>';
         return;
     }
 
