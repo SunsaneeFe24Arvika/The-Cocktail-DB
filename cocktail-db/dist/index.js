@@ -1,10 +1,24 @@
 import { toggleSectionDisplay } from "./utils/toggleDisplay.js";
-import { fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi.js";
+import { fetchCocktailByLetter, fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi.js";
 import { errorHandleMessage } from "./utils/errorHandler.js";
 import { toggleFavorite, updateFavoriteButton, getFavorites } from "./utils/toggleFav.js";
 const sectionSetup = () => {
     const sectionRefs = document.querySelectorAll('.section');
     sectionRefs.forEach(section => section.classList.add('d-none'));
+};
+const getIngredients = (cocktail) => {
+    const ingredients = [];
+    for (let i = 1; i <= 15; i++) {
+        const ingredient = cocktail[`strIngredient${i}`];
+        const measure = cocktail[`strMeasure${i}`];
+        if (ingredient && ingredient !== null && ingredient !== '') {
+            ingredients.push({
+                ingredient: ingredient,
+                measure: measure ? measure : ''
+            });
+        }
+    }
+    return ingredients;
 };
 const createCard = (cocktail) => {
     const cardRef = document.createElement('article');
@@ -63,6 +77,13 @@ const showCocktailDetail = (cocktail) => {
     toggleSectionDisplay('detail');
     const detailContainer = document.querySelector('#detailSection');
     if (detailContainer) {
+        const ingredients = getIngredients(cocktail);
+        const ingredientsList = ingredients.map(item => `
+            <li class="ingredients__list">
+                <span class="ingredient__name">${item.ingredient}</span>
+                <span class="measure">${item.measure}</span>
+            </li>
+        `).join('');
         detailContainer.innerHTML = `
             <div class="card__heading">
             <h1 class="page-title detail__title">${cocktail.strDrink}</h1>
@@ -73,6 +94,11 @@ const showCocktailDetail = (cocktail) => {
             <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
             <span><strong>Category</strong> ${cocktail.strCategory}</span>
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
+            <h3>Ingredienser:</h3>
+            <ul>
+                ${ingredientsList}
+            </ul>
+            <h3>Instruktioner:</h3>
             <p>${cocktail.strInstructions}</p>
         `;
         const favoriteBtn = detailContainer.querySelector('.favorite-btn');
@@ -103,7 +129,15 @@ const setupSearchButton = () => {
         try {
             searchBtn.textContent = 'Loading...';
             searchBtn.disabled = true;
-            const cocktails = await fetchCocktailByName(searchTerm);
+            let cocktails;
+            if (searchTerm.length === 1) {
+                console.log(`Söker på första bokstaven: ${searchTerm}`);
+                cocktails = await fetchCocktailByLetter(searchTerm);
+            }
+            else {
+                console.log(`Söker på namn: ${searchTerm}`);
+                cocktails = await fetchCocktailByName(searchTerm);
+            }
             toggleSectionDisplay('search');
             renderSearchResults(cocktails);
         }
@@ -117,6 +151,7 @@ const setupSearchButton = () => {
     });
     searchInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
+            event.preventDefault();
             searchBtn.click();
         }
     });

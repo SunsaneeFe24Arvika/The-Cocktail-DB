@@ -56,6 +56,7 @@ figure {
     font-family: var(--title-font);
     font-size: 50px;
     color: var(--sunset);
+    text-shadow: var(--raw-sienna) 2px 2px 5px;
 }
 .nav-bar {
     display: flex;
@@ -195,3 +196,26 @@ figure {
 }
     
 
+@media screen and (max-width: 600px) {
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    .heading-container {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+    }
+    .logo {
+        width: 50px;
+        height: auto;
+    }
+    .page-title, .favSection-btn {
+        font-size: 16px;
+    }
+    .home-icon {
+        width: 25px;
+        height: 25px;
+    }
+}
