@@ -50,6 +50,24 @@ const createCard = (cocktail: Cocktail): HTMLElement => {
     `;
     cardRef.innerHTML = cardTemplate;
 
+    // Setup favorite button
+    const favoriteBtn = cardRef.querySelector('.favorite-btn') as HTMLButtonElement;
+    if (favoriteBtn) {
+        // Uppdatera knappen baserat på om drinken redan är favorit
+        updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+
+        // Lägg till click event för heart-icon
+        favoriteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Förhindra att detaljvyn öppnas
+            const isFav = toggleFavorite(cocktail);
+            updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+            
+            // Visa feedback till användaren
+            const message = isFav ? `${cocktail.strDrink} tillagd som favorit!` : `${cocktail.strDrink} borttagen från favoriter`;
+            console.log(message);
+        });
+    }
+
     // Lägg till klick-event för att visa detaljer
     cardRef.addEventListener('click', () => {
         showCocktailDetail(cocktail);
