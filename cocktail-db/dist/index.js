@@ -36,6 +36,17 @@ const createCard = (cocktail) => {
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>      
     `;
     cardRef.innerHTML = cardTemplate;
+    const favoriteBtn = cardRef.querySelector('.favorite-btn');
+    if (favoriteBtn) {
+        updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+        favoriteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isFav = toggleFavorite(cocktail);
+            updateFavoriteButton(favoriteBtn, cocktail.idDrink);
+            const message = isFav ? `${cocktail.strDrink} tillagd som favorit!` : `${cocktail.strDrink} borttagen från favoriter`;
+            console.log(message);
+        });
+    }
     cardRef.addEventListener('click', () => {
         showCocktailDetail(cocktail);
     });
