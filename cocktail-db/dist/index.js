@@ -26,9 +26,9 @@ const createCard = (cocktail) => {
     const cardTemplate = `
         <h1 class="page-title">${cocktail.strDrink}</h1>
         <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-        <span><strong>Category</strong> ${cocktail.strCategory}</span>
+        <span><strong>Category:</strong> ${cocktail.strCategory}</span>
         <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
-        <p>${cocktail.strInstructions}</p>
+        
     `;
     cardRef.innerHTML = cardTemplate;
     cardRef.addEventListener('click', () => {
@@ -63,9 +63,9 @@ const renderSearchResults = (cocktails) => {
         card.innerHTML = `
             <h2>${cocktail.strDrink}</h2>
             <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <span><strong>Category:</strong> ${cocktail.strCategory}</span>
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
-            <p>${cocktail.strInstructions}</p>
+            
         `;
         card.addEventListener('click', () => {
             showCocktailDetail(cocktail);
@@ -92,7 +92,8 @@ const showCocktailDetail = (cocktail) => {
             </button>
             </div>
             <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <aside class="card__details">
+            <span><strong>Category:</strong> ${cocktail.strCategory}</span>
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
             <h3>Ingredienser:</h3>
             <ul>
@@ -100,6 +101,7 @@ const showCocktailDetail = (cocktail) => {
             </ul>
             <h3>Instruktioner:</h3>
             <p>${cocktail.strInstructions}</p>
+            </aside>
         `;
         const favoriteBtn = detailContainer.querySelector('.favorite-btn');
         if (favoriteBtn) {

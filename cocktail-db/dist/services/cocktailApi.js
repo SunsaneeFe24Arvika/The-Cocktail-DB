@@ -51,7 +51,7 @@ export const fetchRandomCocktail = async () => {
     }
 };
 export const randomSetup = async () => {
-    const numberOfDrinks = 3;
+    const numberOfDrinks = 1;
     const cocktailsPromises = [];
     for (let i = 0; i < numberOfDrinks; i++) {
         cocktailsPromises.push(fetchRandomCocktail());

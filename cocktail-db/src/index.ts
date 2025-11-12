@@ -37,11 +37,11 @@ const createCard = (cocktail: Cocktail): HTMLElement => {
     cardRef.classList.add('cocktail-card');
 
     const cardTemplate = `
-        <h1 class="page-title">${cocktail.strDrink}</h1>
+        <h2 class="cocktail-title">${cocktail.strDrink}</h2>
         <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-        <span><strong>Category</strong> ${cocktail.strCategory}</span>
+        <span><strong>Category:</strong> ${cocktail.strCategory}</span>
         <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
-        <p>${cocktail.strInstructions}</p>
+        
     `;
     cardRef.innerHTML = cardTemplate;
 
@@ -92,9 +92,9 @@ const renderSearchResults = (cocktails: Cocktail[]): void => {
         card.innerHTML = `
             <h2>${cocktail.strDrink}</h2>
             <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <span><strong>Category:</strong> ${cocktail.strCategory}</span>
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
-            <p>${cocktail.strInstructions}</p>
+            
         `;
 
         // Lägg till klick-event för att visa detaljer
@@ -131,7 +131,8 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
             </button>
             </div>
             <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
-            <span><strong>Category</strong> ${cocktail.strCategory}</span>
+            <aside class="card__details">
+            <span><strong>Category:</strong> ${cocktail.strCategory}</span>
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
             <h3>Ingredienser:</h3>
             <ul>
@@ -139,6 +140,7 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
             </ul>
             <h3>Instruktioner:</h3>
             <p>${cocktail.strInstructions}</p>
+            </aside>
         `;
 
         // Setup favorite button

@@ -71,7 +71,7 @@ export const fetchRandomCocktail = async (): Promise<Cocktail[]> => {
 // Random setup function
 export const randomSetup = async (): Promise<Cocktail[]> => {
     // Hämta flera random cocktails
-    const numberOfDrinks= 3;
+    const numberOfDrinks= 1;
     const cocktailsPromises: Promise<Cocktail[]>[] = [];
 
     for (let i = 0; i < numberOfDrinks; i++) {
