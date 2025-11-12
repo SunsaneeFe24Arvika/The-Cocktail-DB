@@ -277,7 +277,17 @@ span {
         width: 90%;
         margin: 2rem;
     }
+    .content-wrapper, .favoriteSection, .search-results {
+        width: 100%;
+        display: flex;
+    }
+    .card__heading {
+        gap: 1rem;
+    }
     h2 {
         font-size: 24px;
+    }
+    .results__title, .random__title, .favorite__title {
+        font-size: 28px;
     }
 }
