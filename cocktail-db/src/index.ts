@@ -1,6 +1,6 @@
 import { Cocktail } from "./interfaces/cocktail.js";
 import { toggleSectionDisplay } from "./utils/toggleDisplay.js";
-import { fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi.js";
+import { fetchCocktailByLetter, fetchCocktailByName, startRandomCocktailTimer } from "./services/cocktailApi.js";
 import { errorHandleMessage } from "./utils/errorHandler.js";
 import { toggleFavorite, updateFavoriteButton, getFavorites } from "./utils/toggleFav.js";
 
@@ -10,6 +10,27 @@ const sectionSetup = (): void => {
     sectionRefs.forEach(section => section.classList.add('d-none'));
 }
 
+
+// Hämta ingredienser och mått
+const getIngredients = (cocktail: Cocktail): { ingredient: string; measure: string }[] => {
+    const ingredients: { ingredient: string; measure: string }[] = [];
+    
+    // Loopa ut ingredienser
+    for (let i = 1; i <= 15; i++) {
+        const ingredient = cocktail[`strIngredient${i}` as keyof Cocktail];
+        const measure = cocktail[`strMeasure${i}` as keyof Cocktail];
+        
+        // Om ingrediens finns, lägg till i listan
+        if (ingredient && ingredient !== null && ingredient !== '') {
+            ingredients.push({
+                ingredient: ingredient as string,
+                measure: measure ? (measure as string) : ''
+            });
+        }
+    }
+    
+    return ingredients;
+}
 // Skapa cocktail card
 const createCard = (cocktail: Cocktail): HTMLElement => {
     const cardRef: HTMLElement = document.createElement('article');
@@ -91,6 +112,17 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
 
     const detailContainer = document.querySelector('#detailSection') as HTMLElement;
     if (detailContainer) {
+        // Hämta ingredienser och mått
+        const ingredients = getIngredients(cocktail);
+        
+        // Skapa List-element för ingredienslistan
+        const ingredientsList = ingredients.map(item => `
+            <li class="ingredients__list">
+                <span class="ingredient__name">${item.ingredient}</span>
+                <span class="measure">${item.measure}</span>
+            </li>
+        `).join('');
+
         detailContainer.innerHTML = `
             <div class="card__heading">
             <h1 class="page-title detail__title">${cocktail.strDrink}</h1>
@@ -101,6 +133,11 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
             <img class="cocktail__image" src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
             <span><strong>Category</strong> ${cocktail.strCategory}</span>
             <span><strong>Type:</strong> ${cocktail.strAlcoholic}</span>
+            <h3>Ingredienser:</h3>
+            <ul>
+                ${ingredientsList}
+            </ul>
+            <h3>Instruktioner:</h3>
             <p>${cocktail.strInstructions}</p>
         `;
 
@@ -118,7 +155,7 @@ const showCocktailDetail = (cocktail: Cocktail): void => {
                 // Visa feedback till användaren
                 const message = isFav ? `${cocktail.strDrink} tillagd som favorit!` : `${cocktail.strDrink} borttagen från favoriter`;
                 console.log(message);
-                // Du kan lägga till en toast/notification här om du vill
+                
             });
         }
     }
@@ -147,7 +184,17 @@ const setupSearchButton = (): void => {
             searchBtn.disabled = true;
 
             // Hämta cocktails från API
-            const cocktails = await fetchCocktailByName(searchTerm);
+            // Om endast 1 bokstav: sök på första bokstaven
+            // Om mer än 1 tecken: sök på namn
+            let cocktails: Cocktail[];
+            
+            if (searchTerm.length === 1) {
+                console.log(`Söker på första bokstaven: ${searchTerm}`);
+                cocktails = await fetchCocktailByLetter(searchTerm);
+            } else {
+                console.log(`Söker på namn: ${searchTerm}`);
+                cocktails = await fetchCocktailByName(searchTerm);
+            }
 
             // Toggla till list-sidan och visa resultat
             toggleSectionDisplay('search');
@@ -166,6 +213,7 @@ const setupSearchButton = (): void => {
     // Enter-tangent support
     searchInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
+            event.preventDefault(); 
             searchBtn.click();
         }
 
@@ -232,3 +280,4 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Cocktail DB app started!');
     
 })
+
